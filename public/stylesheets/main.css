@@ -1,0 +1,50 @@
+/* h1 {
+    color: red;
+} */
+
+body {
+    text-align: center;
+    padding: 20px;
+}
+
+fieldset {
+    /* background-color: aqua; */
+    display: block;
+  /* margin-left: 2px;
+  margin-right: 2px;
+  padding-top: 0.35em;
+  padding-bottom: 0.625em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  border: 2px groove (internal value); */
+  /* padding: 100px; */
+  /* margin: 50%; */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+table, th, td {
+  border: 1px solid black;
+  padding: 15px;
+}
+
+form {
+  margin: 10px 0;
+}
+
+fieldset {
+  margin: 10px 0;
+}
+/* button {
+
+} */
+input {
+  margin: 8px;
+}
+
+table input {
+  text-decoration: underline;
+}
