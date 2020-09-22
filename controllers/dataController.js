@@ -28,23 +28,37 @@ exports.saveDataToCsv = (req, res) => {
 };
 
 exports.updateDataInCsv = (req, res) => {
-    //TODO Error: no headers specified, nie zapisuej(zapisuje ale tylko nowy updateowany wiersz)
     const dataFromCsv = fs.readFileSync(filePath).toString()
                                           .split('\n')
                                           .map(e => e.trim())
                                           .map(e => e.split(';'));
-    console.log(dataFromCsv);                                      
-    dataFromCsv[1] = [req.body.title, req.body.story, req.body.criteria, req.body.value, req.body.estimation, req.body.status];
-    // dataFromCsv.shift;
+    // console.log(dataFromCsv);
+    console.log(`Received index: ${req.params['id']}`);
+    const rowIndex = req.params['id'];
+
+    dataFromCsv[rowIndex] = [
+        req.body.title, 
+        req.body.story, 
+        req.body.criteria, 
+        req.body.value, 
+        req.body.estimation, 
+        req.body.status
+    ];
+    dataFromCsv.shift();
+    dataFromCsv.pop();
     console.log(dataFromCsv);
 
     const headers = ['Story Title', 'User Story', 'Acceptance Criteria', 'Business value', 'Estimation', 'Status'];
-    // const headers = ['title', 'story', 'criteria', 'value', 'estimation', 'status'];
-    // (!fs.existsSync(filePath)) ? csvWriter = createCsvWriter({headers: headers}) 
-    //                            : csvWriter = createCsvWriter({sendHeaders: false, separator: ';'});//zastanowic sie
-
-    csvWriter.pipe(fs.createWriteStream(filePath, {flags: 'w', headers: headers}));//headersy tu ? nie dziala powyzszy ternary?
-    csvWriter.write(dataFromCsv);
+    csvWriter = createCsvWriter({
+        sendHeaders: true,
+        headers: headers,
+        separator: ';'
+    })
+    csvWriter.pipe(fs.createWriteStream(filePath, {flags: 'w'}));
+    
+    for (data of dataFromCsv) {
+        csvWriter.write(data);
+    }
     csvWriter.end();
     //uzyc promisea
     res.redirect('/');
